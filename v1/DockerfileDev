@@ -1,0 +1,10 @@
+FROM golang:1.23
+
+RUN curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+
+# Install goose for migrations
+RUN go install github.com/pressly/goose/v3/cmd/goose@latest
+
+WORKDIR /app/api/go-app-api
+
+CMD ["air"]
