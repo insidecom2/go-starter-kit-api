@@ -34,6 +34,26 @@ services:
         condition: service_healthy
         restart: true
 
+  migrate:
+    container_name: "migrate"
+    build:
+      context: .
+      dockerfile: DockerfileDev
+    depends_on:
+      postgres:
+        condition: service_healthy
+        restart: true
+    volumes:
+      - .:/app/api/go-app-api
+    entrypoint:
+      [
+        "goose",
+        "-dir",
+        "src/migrations/postgres",
+        "postgres",
+        "postgres://postgres:postgres@postgres:5432/postgres",
+        "up",
+      ]
 volumes:
   pgdatabase:
     driver: local
