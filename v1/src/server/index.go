@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"go/starter-kit/api/src/configs"
+	"go/starter-kit/api/src/routes"
 	"go/starter-kit/api/src/utils"
 	"log"
 	"os"
@@ -64,11 +65,14 @@ func (s *SeverStruct) routes() (err error) {
 	app := fiber.New()
 	app.Use(cors.New())
 
-	app.Get("/healthy", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).JSON(utils.ResponseStruct{
+	v1 := app.Group("/v1")
+	v1.Get("/healthy", func(c *fiber.Ctx) error {
+		return c.Status(fiber.StatusOK).JSON(utils.ResponseStruct[interface{}]{
 			Message: "healthy",
 		})
 	})
+	// route auth
+	routes.AuthRoutes(app, s.database, "/v1/auth")
 
 	err = app.Listen(":" + s.configs.SeverConfig.Port)
 	if err != nil {
