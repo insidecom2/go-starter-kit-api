@@ -9,3 +9,7 @@ docker-down:
 # migration
 goose-create:
 	goose -dir src/migrations/postgres -s create $(name) sql
+
+# unittest
+test:
+	go test -cover ./... -v

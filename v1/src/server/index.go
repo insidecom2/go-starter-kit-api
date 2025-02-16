@@ -20,17 +20,18 @@ type SeverStruct struct {
 	database *sqlx.DB
 }
 
-func Init() {
+func Init() *fiber.App {
 	config := configs.Config{}
 	server := &SeverStruct{
 		configs:  &config,
 		database: &sqlx.DB{},
 	}
 	server.loadEnv()
-	server.connectDB()
+	server.ConnectDB()
 	defer server.database.Close()
-	server.routes()
+	app, _ := server.Routes()
 	fmt.Println(">> Start API V1 <<")
+	return app
 }
 
 func (s *SeverStruct) loadEnv() {
@@ -48,7 +49,7 @@ func (s *SeverStruct) loadEnv() {
 
 }
 
-func (s *SeverStruct) connectDB() (err error) {
+func (s *SeverStruct) ConnectDB() (err error) {
 
 	postgresUrl := fmt.Sprintf("%s://%s:%s@%s:%s/%s?sslmode=disable", s.configs.DBConfig.Type, s.configs.DBConfig.User, s.configs.DBConfig.Password, s.configs.DBConfig.Host, s.configs.DBConfig.Port, s.configs.DBConfig.DBName)
 	s.database, err = sqlx.Connect("postgres", postgresUrl)
@@ -61,8 +62,8 @@ func (s *SeverStruct) connectDB() (err error) {
 	return nil
 }
 
-func (s *SeverStruct) routes() (err error) {
-	app := fiber.New()
+func (s *SeverStruct) Routes() (app *fiber.App, err error) {
+	app = fiber.New()
 	app.Use(cors.New())
 
 	v1 := app.Group("/v1")
@@ -78,5 +79,5 @@ func (s *SeverStruct) routes() (err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return nil
+	return app, nil
 }

@@ -17,6 +17,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+    networks:
+      - go_api_network
 
   api-app:
     container_name: "go-app-api"
@@ -33,6 +35,8 @@ services:
       postgres:
         condition: service_healthy
         restart: true
+    networks:
+      - go_api_network
 
   migrate:
     container_name: "migrate"
@@ -54,6 +58,12 @@ services:
         "postgres://postgres:postgres@postgres:5432/postgres",
         "up",
       ]
+    networks:
+      - go_api_network
+
 volumes:
   pgdatabase:
     driver: local
+
+networks:
+  go_api_network:
