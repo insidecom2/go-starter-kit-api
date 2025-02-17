@@ -28,7 +28,10 @@ type ResponseStruct[T interface{}] struct {
 func ResponseError(ctx *fiber.Ctx, err error) error {
 
 	var errMessage interface{}
-	errMessage = err
+	// default error
+	errMessage = fiber.Map{
+		"errors": err.Error(),
+	}
 
 	// validator handler error
 	_, isValidator := err.(validator.ValidationErrors)
@@ -49,6 +52,7 @@ func ResponseError(ctx *fiber.Ctx, err error) error {
 		}
 
 	}
+
 	return ctx.Status(fiber.StatusBadRequest).JSON(errMessage)
 
 }

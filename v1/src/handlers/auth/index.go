@@ -8,6 +8,7 @@ import (
 
 type AuthHandlers interface {
 	Register(ctx *fiber.Ctx) error
+	Login(ctx *fiber.Ctx) error
 }
 
 type AuthHandlersStruct struct {

@@ -11,7 +11,9 @@ type AuthRepositoryStruct struct {
 }
 
 type AuthRepository interface {
-	Register(req consts.RegisterRequest) (r consts.RegisterResponse, err error)
+	Register(req consts.RegisterRequest) (r consts.UserResponse, err error)
+	Login(req consts.LoginRequest) (r consts.UserResponse, err error)
+	UpdateRefreshToken(req consts.UserEntity) (err error)
 }
 
 func NewAuthRepository(DB *sqlx.DB) *AuthRepositoryStruct {

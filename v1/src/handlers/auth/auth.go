@@ -19,8 +19,25 @@ func (h *AuthHandlersStruct) Register(ctx *fiber.Ctx) error {
 		return utils.ResponseError(ctx, err)
 	}
 
-	return ctx.Status(fiber.StatusCreated).JSON(utils.ResponseStruct[consts.RegisterResponse]{
+	return ctx.Status(fiber.StatusCreated).JSON(utils.ResponseStruct[consts.UserResponse]{
 		Message: "Created",
+		Data:    &res,
+	})
+}
+
+func (h *AuthHandlersStruct) Login(ctx *fiber.Ctx) error {
+	req, err := utils.ParseAndValidateRequest(ctx, &consts.LoginRequest{})
+	if err != nil {
+		return utils.ResponseError(ctx, err)
+	}
+
+	res, err := h.AuthService.Login(*req)
+	if err != nil {
+		return utils.ResponseError(ctx, err)
+	}
+
+	return ctx.Status(fiber.StatusOK).JSON(utils.ResponseStruct[consts.LoginResponse]{
+		Message: "Login Success",
 		Data:    &res,
 	})
 }

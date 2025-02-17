@@ -3,6 +3,7 @@ package configs
 type Config struct {
 	DBConfig    DBConfig
 	SeverConfig SeverConfig
+	JwtToken    JwtToken
 }
 
 type DBConfig struct {
@@ -16,4 +17,9 @@ type DBConfig struct {
 
 type SeverConfig struct {
 	Port string
+}
+
+type JwtToken struct {
+	Token        string
+	ReFreshToken string
 }

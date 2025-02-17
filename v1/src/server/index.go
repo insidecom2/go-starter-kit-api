@@ -47,6 +47,9 @@ func (s *SeverStruct) loadEnv() {
 
 	s.configs.SeverConfig.Port = os.Getenv("PORT")
 
+	s.configs.JwtToken.Token = os.Getenv("JWT_TOKEN_KEY")
+	s.configs.JwtToken.ReFreshToken = os.Getenv("JWT_REFRESH_TOKEN_KEY")
+
 }
 
 func (s *SeverStruct) ConnectDB() (err error) {
@@ -73,7 +76,7 @@ func (s *SeverStruct) Routes() (app *fiber.App, err error) {
 		})
 	})
 	// route auth
-	routes.AuthRoutes(app, s.database, "/v1/auth")
+	routes.AuthRoutes(app, s.database, s.configs, "/v1/auth")
 
 	err = app.Listen(":" + s.configs.SeverConfig.Port)
 	if err != nil {

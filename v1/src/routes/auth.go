@@ -1,7 +1,9 @@
 package routes
 
 import (
+	"go/starter-kit/api/src/configs"
 	handlers "go/starter-kit/api/src/handlers/auth"
+	"go/starter-kit/api/src/middleware"
 	repositories "go/starter-kit/api/src/repositories/auth"
 	services "go/starter-kit/api/src/services/auth"
 
@@ -9,12 +11,13 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func AuthRoutes(app *fiber.App, db *sqlx.DB, path string) {
+func AuthRoutes(app *fiber.App, db *sqlx.DB, config *configs.Config, path string) {
 	authRepo := repositories.NewAuthRepository(db)
-	authService := services.NewAuthService(*authRepo)
+	authService := services.NewAuthService(*authRepo, config)
 	authHandlers := handlers.NewAuthHandler(*authService)
 
 	group := app.Group(path)
-	group.Post("/register", authHandlers.Register)
+	group.Post("/register", middleware.AuthMiddleWare, authHandlers.Register)
+	group.Post("/login", authHandlers.Login)
 
 }
