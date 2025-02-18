@@ -69,14 +69,16 @@ func (s *SeverStruct) Routes() (app *fiber.App, err error) {
 	app = fiber.New()
 	app.Use(cors.New())
 
-	v1 := app.Group("/v1")
+	prefix := "/v1"
+	v1 := app.Group(prefix)
 	v1.Get("/healthy", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).JSON(utils.ResponseStruct[interface{}]{
 			Message: "healthy",
 		})
 	})
 	// route auth
-	routes.AuthRoutes(app, s.database, s.configs, "/v1/auth")
+	routes.AuthRoutes(app, s.database, s.configs, prefix+"/auth")
+	routes.UserRoutes(app, s.database, prefix+"/user")
 
 	err = app.Listen(":" + s.configs.SeverConfig.Port)
 	if err != nil {

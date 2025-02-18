@@ -3,7 +3,6 @@ package routes
 import (
 	"go/starter-kit/api/src/configs"
 	handlers "go/starter-kit/api/src/handlers/auth"
-	"go/starter-kit/api/src/middleware"
 	repositories "go/starter-kit/api/src/repositories/auth"
 	services "go/starter-kit/api/src/services/auth"
 
@@ -17,7 +16,7 @@ func AuthRoutes(app *fiber.App, db *sqlx.DB, config *configs.Config, path string
 	authHandlers := handlers.NewAuthHandler(*authService)
 
 	group := app.Group(path)
-	group.Post("/register", middleware.AuthMiddleWare, authHandlers.Register)
+	group.Post("/register", authHandlers.Register)
 	group.Post("/login", authHandlers.Login)
 
 }
