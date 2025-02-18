@@ -1,6 +1,6 @@
 services:
-  postgres:
-    container_name: "postgres"
+  postgres_db:
+    container_name: "postgres_db"
     image: postgres:17.1
     ports:
       - "54322:5432"
@@ -32,19 +32,19 @@ services:
     volumes:
       - .:/app/api/go-app-api
     depends_on:
-      postgres:
+      postgres_db:
         condition: service_healthy
         restart: true
     networks:
       - go_api_network
 
-  migrate:
-    container_name: "migrate"
+  migrate_db:
+    container_name: "migrate_db"
     build:
       context: .
       dockerfile: DockerfileDev
     depends_on:
-      postgres:
+      postgres_db:
         condition: service_healthy
         restart: true
     volumes:
