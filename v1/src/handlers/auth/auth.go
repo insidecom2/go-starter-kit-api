@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (h *AuthHandlersStruct) Register(ctx *fiber.Ctx) error {
+func (h *authHandlersStruct) Register(ctx *fiber.Ctx) error {
 
 	req, err := utils.ParseAndValidateRequest(ctx, &consts.RegisterRequest{})
 	if err != nil {
@@ -25,7 +25,7 @@ func (h *AuthHandlersStruct) Register(ctx *fiber.Ctx) error {
 	})
 }
 
-func (h *AuthHandlersStruct) Login(ctx *fiber.Ctx) error {
+func (h *authHandlersStruct) Login(ctx *fiber.Ctx) error {
 	req, err := utils.ParseAndValidateRequest(ctx, &consts.LoginRequest{})
 	if err != nil {
 		return utils.ResponseError(ctx, err)

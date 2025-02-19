@@ -12,8 +12,8 @@ import (
 
 func AuthRoutes(app *fiber.App, db *sqlx.DB, config *configs.Config, path string) {
 	authRepo := repositories.NewAuthRepository(db)
-	authService := services.NewAuthService(*authRepo, config)
-	authHandlers := handlers.NewAuthHandler(*authService)
+	authService := services.NewAuthService(authRepo, config)
+	authHandlers := handlers.NewAuthHandler(authService)
 
 	group := app.Group(path)
 	group.Post("/register", authHandlers.Register)

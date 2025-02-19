@@ -5,12 +5,12 @@ import (
 	"go/starter-kit/api/src/utils"
 )
 
-func (s *AuthServiceStruct) Register(req consts.RegisterRequest) (r consts.UserResponse, err error) {
+func (s *authServiceStruct) Register(req consts.RegisterRequest) (r consts.UserResponse, err error) {
 	req.Password, _ = utils.HashPassword(req.Password)
 	return s.AuthRepository.Register(req)
 }
 
-func (s *AuthServiceStruct) Login(req consts.LoginRequest) (r consts.LoginResponse, err error) {
+func (s *authServiceStruct) Login(req consts.LoginRequest) (r consts.LoginResponse, err error) {
 	user, err := s.AuthRepository.Login(req)
 
 	if err != nil {

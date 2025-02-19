@@ -6,18 +6,18 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type AuthRepositoryStruct struct {
+type authRepositoryStruct struct {
 	DB *sqlx.DB
 }
 
 type AuthRepository interface {
 	Register(req consts.RegisterRequest) (r consts.UserResponse, err error)
 	Login(req consts.LoginRequest) (r consts.UserResponse, err error)
-	UpdateRefreshToken(req consts.UserEntity) (err error)
+	UpdateRefreshToken(req consts.UserEntity) (r consts.UserEntity, err error)
 }
 
-func NewAuthRepository(DB *sqlx.DB) *AuthRepositoryStruct {
-	return &AuthRepositoryStruct{
+func NewAuthRepository(DB *sqlx.DB) AuthRepository {
+	return &authRepositoryStruct{
 		DB: DB,
 	}
 }

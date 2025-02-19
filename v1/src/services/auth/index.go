@@ -6,8 +6,8 @@ import (
 	repositories "go/starter-kit/api/src/repositories/auth"
 )
 
-type AuthServiceStruct struct {
-	AuthRepository repositories.AuthRepositoryStruct
+type authServiceStruct struct {
+	AuthRepository repositories.AuthRepository
 	config         *configs.Config
 }
 
@@ -16,8 +16,8 @@ type AuthService interface {
 	Login(req consts.LoginRequest) (r consts.LoginResponse, err error)
 }
 
-func NewAuthService(repository repositories.AuthRepositoryStruct, config *configs.Config) *AuthServiceStruct {
-	return &AuthServiceStruct{
+func NewAuthService(repository repositories.AuthRepository, config *configs.Config) AuthService {
+	return &authServiceStruct{
 		AuthRepository: repository,
 		config:         config,
 	}

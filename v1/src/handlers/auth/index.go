@@ -11,12 +11,12 @@ type AuthHandlers interface {
 	Login(ctx *fiber.Ctx) error
 }
 
-type AuthHandlersStruct struct {
-	AuthService services.AuthServiceStruct
+type authHandlersStruct struct {
+	AuthService services.AuthService
 }
 
-func NewAuthHandler(service services.AuthServiceStruct) *AuthHandlersStruct {
-	return &AuthHandlersStruct{
+func NewAuthHandler(service services.AuthService) AuthHandlers {
+	return &authHandlersStruct{
 		AuthService: service,
 	}
 }

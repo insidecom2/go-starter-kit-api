@@ -52,17 +52,17 @@ func (s *SeverStruct) loadEnv() {
 
 }
 
-func (s *SeverStruct) ConnectDB() (err error) {
+func (s *SeverStruct) ConnectDB() {
 
 	postgresUrl := fmt.Sprintf("%s://%s:%s@%s:%s/%s?sslmode=disable", s.configs.DBConfig.Type, s.configs.DBConfig.User, s.configs.DBConfig.Password, s.configs.DBConfig.Host, s.configs.DBConfig.Port, s.configs.DBConfig.DBName)
-	s.database, err = sqlx.Connect("postgres", postgresUrl)
+	db, err := sqlx.Connect("postgres", postgresUrl)
 
 	if err != nil {
 		log.Fatal(err)
 	}
+	s.database = db
 	fmt.Println(">> Connected postgres database. <<")
 
-	return nil
 }
 
 func (s *SeverStruct) Routes() (app *fiber.App, err error) {
