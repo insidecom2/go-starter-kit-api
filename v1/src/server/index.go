@@ -50,6 +50,8 @@ func (s *SeverStruct) loadEnv() {
 	s.configs.JwtToken.Token = os.Getenv("JWT_TOKEN_KEY")
 	s.configs.JwtToken.ReFreshToken = os.Getenv("JWT_REFRESH_TOKEN_KEY")
 
+	s.configs.KafkaConfig.Url = os.Getenv("KAFKA_URL")
+
 }
 
 func (s *SeverStruct) ConnectDB() {

@@ -4,6 +4,7 @@ type Config struct {
 	DBConfig    DBConfig
 	SeverConfig SeverConfig
 	JwtToken    JwtToken
+	KafkaConfig KafkaConfig
 }
 
 type DBConfig struct {
@@ -22,4 +23,8 @@ type SeverConfig struct {
 type JwtToken struct {
 	Token        string
 	ReFreshToken string
+}
+
+type KafkaConfig struct {
+	Url string
 }

@@ -1,7 +1,9 @@
 package services
 
 import (
+	"encoding/json"
 	"go/starter-kit/api/src/consts"
+	producer "go/starter-kit/api/src/producer/kafka"
 	"go/starter-kit/api/src/utils"
 )
 
@@ -37,6 +39,15 @@ func (s *authServiceStruct) Login(req consts.LoginRequest) (r consts.LoginRespon
 		UserResponse: user,
 		Token:        token,
 		ReFreshToken: reFreshToken,
+	}
+
+	msg, errs := json.Marshal(r)
+	if errs != nil {
+		return r, err
+	}
+
+	if err = producer.SendMessage("notic", "Login", msg); err != nil {
+		return r, err
 	}
 
 	return r, nil
