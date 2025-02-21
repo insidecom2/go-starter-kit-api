@@ -28,7 +28,7 @@ func ConsumerMessage(topic string) error {
 	}
 	log.Printf("connected: %v", "Kafka")
 
-	consumer, err := worker.ConsumePartition(topic, 0, sarama.OffsetOldest)
+	consumer, err := worker.ConsumePartition(topic, 0, sarama.OffsetNewest)
 	if err != nil {
 		log.Printf("error :%v", consumer)
 	}
@@ -54,7 +54,7 @@ func ConsumerMessage(topic string) error {
 	}()
 	<-doneCh
 
-	log.Println(" message done")
+	log.Println("Message done")
 	if err := worker.Close(); err != nil {
 		log.Printf(" error: %v", err)
 	}
